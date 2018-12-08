@@ -37,24 +37,41 @@ def filter_repeated_vertices (n_vert_prism = 6):
 		ele 					= np.fromstring(things[k],dtype=int,sep=' ')
 		elem_vert_repeated[k] 	= np.concatenate((ele,np.zeros((n_vert_prism+1-len(ele)),dtype=int)))
 	
-	print 'mesh_conectivity.kill_repeated()'
+    if sys.version_info >= (3, 0):
+        print('mesh_conectivity.kill_repeated()')
+    else:
+        print 'mesh_conectivity.kill_repeated()'
 	t0 = time.time()
 	replace_verts = mesh_conectivity.kill_repeated('vertices.txt')  ## repetitions in vertices.txt leave a dictionary
-	print time.time() - t0
-	print '\n'
-	
-	print 'vertices replacement loop version 2'
+    if sys.version_info >= (3, 0):
+        print(time.time() - t0)
+        print('\n')
+
+        print('vertices replacement loop version 2')
+    else:
+        print time.time() - t0
+        print '\n'
+
+        print 'vertices replacement loop version 2'
 	t0 		= time.time()
 	counter = 1
 	elem_vert_dscnt_indcs = np.copy(elem_vert_repeated).reshape(n_elem*7)
 	for key in replace_verts:
-		print 'progress: {0}/{1}\r'.format(counter,len(replace_verts)),
+        if sys.version_info >= (3, 0):
+		    print('progress: {0}/{1}\r'.format(counter,len(replace_verts)), end=' ')
+        else
+            print 'progress: {0}/{1}\r'.format(counter,len(replace_verts))
 		counter += 1
 		for r in replace_verts[key]:
 			elem_vert_dscnt_indcs[elem_vert_dscnt_indcs == r+1] = (key +1)
-	print '\r'
-	print time.time() - t0
-	print '\n'
+    if sys.version_info >= (3, 0):
+    	print('\r')
+    	print(time.time() - t0)
+    	print('\n')
+    else:
+        print '\r'
+        print time.time() - t0
+        print '\n'
 	
 	elem_vert_dscnt_indcs = elem_vert_dscnt_indcs.reshape((n_elem,7))
 	
@@ -72,11 +89,18 @@ def filter_repeated_faces (n_elem):
 	mesh_conectivity.vertices_by_elements()	writes on disc: shared_faces.txt
 	writes: faces_repeated.txt 			----> with repetitions
 	        faces_local_to_global.txt   ----> for macro--element of type 1 """	
-	print 'mesh_conectivity.face_enumeration'
+    if sys.version_info >= (3, 0):
+	   print('mesh_conectivity.face_enumeration')
+    else:
+       print 'mesh_conectivity.face_enumeration'
 	t0 = time.time()
 	mesh_conectivity.face_enumeration('elements_by_vertices.txt')
-	print time.time() - t0
-	print '\r'
+    if sys.version_info >= (3, 0):
+        print(time.time() - t0)
+        print('\n')
+    else:
+    	print time.time() - t0
+    	print '\r'
 
 	with open('faces_local_to_global.txt', 'r') as ent:
 		stuff = ent.readlines()
@@ -88,28 +112,47 @@ def filter_repeated_faces (n_elem):
 
 	## reads repetitions in faces_repeated.txt and leaves a dictionary
 	## writes file: faces.txt -----> global unique enumeration of faces
-	print 'mesh_conectivity.kill_repeated_faces'
+    if sys.version_info >= (3, 0):
+	    print('mesh_conectivity.kill_repeated_faces')
+    else:
+        print 'mesh_conectivity.kill_repeated_faces'
 	t0 = time.time()
 	replace_faces, indices, num_faces = mesh_conectivity.kill_repeated_faces('faces_repeated.txt')  
-	print time.time() - t0
-	print '\r'
+    if sys.version_info >= (3, 0):
+        print(time.time() - t0)
+        print('\n')
+    else:
+        print time.time() - t0
+        print '\r'
+
 
 	with open ('num_faces.txt','w') as n_of_faces:
 		n_of_faces.write(str(num_faces))
 
 	#### uniquifying faces:
-	print 'faces replacement loop version 2'
+    if sys.version_info >= (3, 0):
+        print('faces replacement loop version 2')
+    else:
+        print 'faces replacement loop version 2'
 	t0 = time.time()
 	elem_faces_discnt_index = np.copy(elem_faces_repeated).reshape(n_elem*6)
 	counter = 1
 	for key in replace_faces:
-		print 'progress: {0}/{1}\r'.format(counter,len(replace_faces)),
+        if sys.version_info >= (3, 0):
+            print('progress: {0}/{1}\r'.format(counter,len(replace_verts)), end=' ')
+        else
+            print 'progress: {0}/{1}\r'.format(counter,len(replace_verts))
 		counter += 1
 		for r in replace_faces[key]:
 			elem_faces_discnt_index[elem_faces_discnt_index==r] = key
-	print '\r'
-	print time.time() - t0
-	print '\r'
+    if sys.version_info >= (3, 0):
+        print('\r')
+        print(time.time() - t0)
+        print('\n')
+    else:
+        print '\r'
+        print time.time() - t0
+        print '\n'
 
 	#elem_faces_discnt_index = elem_faces_discnt_index.reshape((n_elem,6))
 
@@ -117,13 +160,20 @@ def filter_repeated_faces (n_elem):
 
 	## bijection indices ----> [1,...,n_faces]
 	## unique, continuous indices with filling zeros
-	print 'loop for indexing faces with {1 ... n_faces}'
+    if sys.version_info >= (3, 0):
+        print('loop for indexing faces with {1 ... n_faces}')
+    else:
+        print 'loop for indexing faces with {1 ... n_faces}'
 	t0 = time.time()
 	elem_faces = np.copy(elem_faces_discnt_index)
 	for i in range(len(indices)):
 		elem_faces[elem_faces_discnt_index==indices[i]] = i+1
-	print time.time() - t0
-	print '\r'
+    if sys.version_info >= (3, 0):
+        print(time.time() - t0)
+        print('\n')
+    else:
+        print time.time() - t0
+        print '\n'
 
 	elem_faces = np.copy(elem_faces).reshape((n_elem,6))
 	del elem_faces_discnt_index
@@ -135,21 +185,31 @@ def filter_repeated_faces (n_elem):
 	return 
 
 def fichera (levels = 3, mu_ = .35, n_vert_prism = 6):
-	print('levels: %s\r' % levels)
+    if sys.version_info >= (3, 0):
+        print('levels: %s\r' % levels)
+    else:
+        print 'levels: %s\r' % levels
 	## dictionary with the fichera mesh.
-	print 'mesh.cube_mesh_2()'
+    if sys.version_info >= (3, 0):
+        print('mesh.cube_mesh_2()')
+    else:
+        print 'mesh.cube_mesh_2()'
 	t0 = time.time()
 	fichera_coords_ = mesh.cube_mesh_2(levels, mu_, mesh.p_, mesh.macro_el) 
-	print time.time() - t0
-	print '\r'
+    if sys.version_info >= (3, 0):
+        print(time.time() - t0)
+        print('\n')
+    else:
+        print time.time() - t0
+        print '\n'
 	
 	# indices only for type I macro--el. writes file: elements.txt 
 	mesh_write.write_element_indices('elements.txt', levels)
 	
 	init 	= 0
 	
-	for oc in xrange(2,9):    # integers 2, 3, 4, 5, 6, 7, 8
-		for t in xrange(4):
+	for oc in range(2,9):    # integers 2, 3, 4, 5, 6, 7, 8
+		for t in range(4):
 			coords 	= fichera_coords_['points_T' + str(t) + '_C' + str(oc)] 
 			mesh_conectivity.write_elements_by_vertices('elements.txt', levels, 'Octave', init) # writes elements_by_vertices_repeated.txt: GLOBAL INDICES per element
 			init   += mesh_write.vertices(coords)	# writes 'vertices.txt' global list of vertices
@@ -157,8 +217,12 @@ def fichera (levels = 3, mu_ = .35, n_vert_prism = 6):
 		n_vertT4 = np.shape(fichera_coords_['points_T4_C' + str(oc)])[0]
 	
 		if not ((n_vertT4 % 4) == 0):
-			print('incorrect number of points in T4')
-			print('oc:' + str(oc) + ' t:' + str(t))
+            if sys.version_info >= (3, 0):
+                print('incorrect number of points in T4')
+                print('oc:' + str(oc) + ' t:' + str(t))
+            else
+                print 'incorrect number of points in T4')
+                print 'oc:' + str(oc) + ' t:' + str(t)
 			exit()
 	
 		mesh_conectivity.write_elements_by_vertices_T4(n_vertT4, init ,'elements_by_vertices_repeated.txt')

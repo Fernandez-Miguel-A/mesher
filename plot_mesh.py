@@ -75,7 +75,10 @@ def plot_bbrick(mu = [1,1,1,1,1], angle_steps = [8,9,10], refinements = range(5,
 			ax.set_ylabel(' Y ')
 			ax.set_zlabel(' Z ')
 			#plt.show()
-			print "azim ", azim
+            if sys.version_info >= (3, 0):
+                print("azim ", azim)
+            else:
+                print "azim ", azim
 			fig.savefig('bbrick' + str(azim) + '-' + str(n) + '.png')
 	return
 

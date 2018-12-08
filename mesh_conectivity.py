@@ -243,13 +243,19 @@ def kill_repeated (vertices_file_name):
 	d_out 	 = {}
 	Nv 		 = vertices.shape[0]
 	for v in range(Nv):
-		print 'progress: {0}/{1}\r'.format(counter,Nv),
+        if sys.version_info >= (3, 0):
+		    print('progress: {0}/{1}\r'.format(counter,len(Nv)), end=' ')
+        else
+            print 'progress: {0}/{1}\r'.format(counter,Nv)
 		counter += 1
 		for w in range(v + 1, Nv):
 			if np.all(np.equal(vertices[v], vertices[w])):
 				d_out[v] = d_out.get(v,[])
 				d_out[v].append(w)
-	print '\r'
+    if sys.version_info >= (3, 0):
+	    print('\r')
+    else
+        print '\r'
 	return d_out
 
 def kill_repeated_faces (faces_file_name):
@@ -264,18 +270,27 @@ def kill_repeated_faces (faces_file_name):
 
 	d_out = {}
 	
-	indices = range(1, n_faces+1)
+    if sys.version_info >= (3, 0):
+		indices = list(range(1, n_faces+1))
+    else
+		indices = range(1, n_faces+1)
 
 	counter = 1
 	for f in indices:
-		print 'progress: {0}/{1}\r'.format(counter,n_faces),
+        if sys.version_info >= (3, 0):
+		    print('progress: {0}/{1}\r'.format(counter,n_faces), end=' ')
+        else
+            print 'progress: {0}/{1}\r'.format(counter,n_faces)
 		counter += 1
 		for g in range(f + 1, n_faces+1):
 			if (face_dict[f][0] == face_dict[g][0]):	
 				if set(face_dict[f][1:]) == set(face_dict[g][1:]):
 					d_out[f] = d_out.get(f, [])
 					d_out[f].append(g)
-	print '\r'
+    if sys.version_info >= (3, 0):
+	    print('\r')
+    else
+        print '\r'
 
 	duplicates = []
 	for ff in d_out:

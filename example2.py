@@ -76,7 +76,10 @@ def plot_bbrick():
 			ax.set_ylabel(' Y ')
 			ax.set_zlabel(' Z ')
 			#plt.show()
-			print "azim ", azim
+            if sys.version_info >= (3, 0):
+                print("azim ", azim)
+            else:
+    			print "azim ", azim
 			fig.savefig('bbrick' + str(azim) + '-' + str(n) + '.png')
 	return
 
@@ -85,7 +88,10 @@ def plot_fichera():
 	macro_elems = [0,1,2,3]  # 0,1,2 or 3 in each cube
 	angle_steps = range(1,2)
 	refinements = range(3,4)
-	octants     = range(2,9) # any sublist in range(2,9)
+    if sys.version_info >= (3, 0):
+        octants     = list(range(2,9)) # any sublist in range(2,9)
+    else:
+        octants     = range(2,9) # any sublist in range(2,9)
 	
 	for n in refinements:
 	    coords  = cube_mesh_2(n,mu,p_,macro_el,octants,macro_elems)
