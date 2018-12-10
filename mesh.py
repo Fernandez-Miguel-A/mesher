@@ -200,10 +200,6 @@ def cube_mesh_2 (n, mu, p, tetrahedra, octants = range(2,9), macro_elems = [0,1,
 			point2 = q[:,tetrahedra[m,2]]
 			e3 	   = q[:,tetrahedra[m,3]]
 			points = np.zeros((n+1, n+1, 3, n+1))  # level, i, coord, j
-            if sys.version_info >= (3, 0):
-                range = range
-            else:
-                range = xrange
 			for k in range(n+1):
 				for i in range(n-k+1):
 					for j in range(n-k-i+1):

@@ -208,7 +208,9 @@ def fichera (levels = 3, mu_ = .35, n_vert_prism = 6):
 	
 	init 	= 0
 	
-	for oc in range(2,9):    # integers 2, 3, 4, 5, 6, 7, 8
+    if sys.version_info >= (3, 0):
+        xrange = range
+	for oc in xrange(2,9):    # integers 2, 3, 4, 5, 6, 7, 8
 		for t in range(4):
 			coords 	= fichera_coords_['points_T' + str(t) + '_C' + str(oc)] 
 			mesh_conectivity.write_elements_by_vertices('elements.txt', levels, 'Octave', init) # writes elements_by_vertices_repeated.txt: GLOBAL INDICES per element
