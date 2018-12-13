@@ -155,11 +155,11 @@ def macroel_sing_vrtx_and_edge (local_origin, base_vrtx_1, base_vrtx_2, sing_vrt
     for k in xrange(n+1):
         for i in xrange(n-k+1):
             for j in xrange(n-k-i+1):
-                lambda_1 = lambda1 (i,j,0,n,mu_vec[m]); # it can be done with much lesser calls to these lambda
-                lambda_2 = lambda2 (i,j,0,n,mu_vec[m]);
+                lambda_1 = lambda1 (i,j,0,n,mu); # it can be done with much lesser calls to these lambda
+                lambda_2 = lambda2 (i,j,0,n,mu);
                 # the sub-mesh is just the following two lines
                 points[k,i,:,j] = lambda_1*(base_vrtx_1-local_origin) + lambda_2*(base_vrtx_2-local_origin)
-                points[k,i,:,j] += (1-(float(n-k)/n)**(1/mu_vec[m]))*(sing_vrtx-local_origin) + local_origin
+                points[k,i,:,j] += (1-(float(n-k)/n)**(1/mu))*(sing_vrtx-local_origin) + local_origin
     return points
 
 def macroel_sing_edge(three_times_six_points_matrix, grading, n):
@@ -201,7 +201,9 @@ def cube2mat (obj, file_name = 'data.mat'):
 colours = ['lightgreen']*4
 
 def cube_mesh_2 (n, mu, p, tetrahedra, octants = range(2,9), macro_elems = [0,1,2,3,4]):
-    """ here we calculate the mesh of the whole fichera 
+    """ TODO: this one goes out of mesh.py: put this in main.py probably
+        inside fichera()
+        here we calculate the mesh of the whole fichera 
         n == levels
         mu == grading param
         p == vertices of the cubes; the octants
@@ -216,26 +218,13 @@ def cube_mesh_2 (n, mu, p, tetrahedra, octants = range(2,9), macro_elems = [0,1,
             point1 = q[:,tetrahedra[m,1]]
             point2 = q[:,tetrahedra[m,2]]
             e3     = q[:,tetrahedra[m,3]]
-            points = np.zeros((n+1, n+1, 3, n+1))  # level, i, coord, j
-            for k in xrange(n+1):
-                for i in xrange(n-k+1):
-                    for j in xrange(n-k-i+1):
-                        lambda_1 = lambda1 (i,j,0,n,mu_vec[m]); # it can be done with much lesser calls to these lambda
-                        lambda_2 = lambda2 (i,j,0,n,mu_vec[m]);
-                        # the mesh are just the following two lines
-                        points[k,i,:,j] = lambda_1*(point1-point0) + lambda_2*(point2-point0)
-                        points[k,i,:,j] += (1-(float(n-k)/n)**(1/mu_vec[m]))*(e3-point0) + point0
-            dict_save['points_T'+str(m)+'_C'+str(o)] = points.copy()
-
-        for m in [z for z in macro_elems if z == 4]:
-            # CALCULATION FOR t = 4 (T5)
+            dict_save['points_T'+str(m)+'_C'+str(o)] = macroel_sing_vrtx_and_edge (point0,point1,point2,e3,mu_vec[m],n)
+        for m in [z for z in macro_elems if z == 4]: # CALCULATION FOR t = 4 (T5)
             P0    = q[:,tetrahedra[4,0]]
             P1    = q[:,tetrahedra[4,1]]
             P2    = q[:,tetrahedra[4,2]]
             P3    = q[:,tetrahedra[4,3]]
-            points = macroel_sing_vrtx(P0, P1, P2, P3, mu, n)
-            dict_save['points_T4_C' + str(o)] = points.copy()
-
+            dict_save['points_T4_C' + str(o)] = macroel_sing_vrtx(P0, P1, P2, P3, mu, n)
     return dict_save
 
 def cube_drawing (coord, oct_range = range(2,9), macro_elems = [0,1,2,3]):
