@@ -162,9 +162,31 @@ def macroel_sing_vrtx_and_edge (local_origin, base_vrtx_1, base_vrtx_2, sing_vrt
                 points[k,i,:,j] += (1-(float(n-k)/n)**(1/mu))*(sing_vrtx-local_origin) + local_origin
     return points
 
-def macroel_sing_edge(three_times_six_points_matrix, grading, n):
-    ## TODO
-    pass
+def macroel_sing_edge(macroel_vertices, mu, n):
+    """ 
+    n := number of subintervals betweeen nodes of each edge of the
+    macroelement
+
+    order of the columns in M := macroel_vertices:
+        (M[0], M[1], M[2]) == a triangle
+        (M[3], M[4], M[5]) == the other triangle
+    
+        edges perpendicular to the triangles:
+            singular edge == [M[0],M[3]]
+            the others:      [M[1],M[4]], [M[2],M[5]]
+    """
+    points = np.zeros((n+1,n+1,n+1,3))
+#    hacer una vez el graduado triangular y despues sumar capas
+    for y in xrange(n+1):
+        for z in xrange(n+1-y):
+            lambda_1, lambda_2 = lambda1 (y,z,0,n,mu), lambda2 (y,z,0,n,mu)
+            points[0,,,:] = lambda_1*... + lambda_2*...
+
+    for x in xrange(1,n+1):
+        points[x] = points[0] + subir(x)*(macroel_vertices[3] - macroel_vertices[0])
+
+
+    return points
 
 def line (x, y, z):
     """ (x[0], y[0], z[0]) -- ... -- (x[n-1], y[n-1], z[n-1]) """
