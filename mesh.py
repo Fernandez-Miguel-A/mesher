@@ -176,15 +176,13 @@ def macroel_sing_edge(macroel_vertices, mu, n):
             the others:      [M[1],M[4]], [M[2],M[5]]
     """
     points = np.zeros((n+1,n+1,n+1,3))
-#    hacer una vez el graduado triangular y despues sumar capas
     for y in xrange(n+1):
         for z in xrange(n+1-y):
             lambda_1, lambda_2 = lambda1 (y,z,0,n,mu), lambda2 (y,z,0,n,mu)
-            points[0,,,:] = lambda_1*... + lambda_2*...
+            points[0,y,z,:] = lambda_1*(macroel_vertices[1] - macroel_vertices[0]) + lambda_2*(macroel_vertices[2] - macroel_vertices[0])
 
-    for x in xrange(1,n+1):
-        points[x] = points[0] + subir(x)*(macroel_vertices[3] - macroel_vertices[0])
-
+    for x in xrange(1,n+1): # translating level 0 to the levels above
+        points[x] = points[0] + (float(x)/n)*(macroel_vertices[3] - macroel_vertices[0])
 
     return points
 
