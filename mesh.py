@@ -174,15 +174,21 @@ def macroel_sing_edge(macroel_vertices, mu, n):
         edges perpendicular to the triangles:
             singular edge == [M[0],M[3]]
             the others:      [M[1],M[4]], [M[2],M[5]]
+
+    obs: to sum faster, the levels in the points array which are 
+    greater than zero end up filled. Be careful not to use that coordinates. 
     """
     points = np.zeros((n+1,n+1,n+1,3))
     for y in xrange(n+1):
         for z in xrange(n+1-y):
             lambda_1, lambda_2 = lambda1 (y,z,0,n,mu), lambda2 (y,z,0,n,mu)
-            points[0,y,z,:] = lambda_1*(macroel_vertices[1] - macroel_vertices[0]) + lambda_2*(macroel_vertices[2] - macroel_vertices[0])
+            points[0,y,z,:] = lambda_1*(macroel_vertices[:,1] - macroel_vertices[:,0]) + lambda_2*(macroel_vertices[:,2] - macroel_vertices[:,0])
 
     for x in xrange(1,n+1): # translating level 0 to the levels above
-        points[x] = points[0] + (float(x)/n)*(macroel_vertices[3] - macroel_vertices[0])
+        points[x] = points[0] + (float(x)/n)*(macroel_vertices[:,3] - macroel_vertices[:,0])
+
+    TODO: hacer experimento de prueba de este metodo de prismas, solo y con 
+    macroelementos adyadentes, y despues aplicarlo a bbrick
 
     return points
 

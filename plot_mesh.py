@@ -1,5 +1,3 @@
-### TODO FIRST: mesh.py should have an indep func called
-### macroel_sing_vrtx_and_edge(), as mesh.macroel_sing_vrtx() and not a "cube_mesh_2"
 ###	TODO: refactor everything economizing code
 
 from mesh import *
