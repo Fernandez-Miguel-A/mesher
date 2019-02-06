@@ -152,9 +152,9 @@ def macroel_sing_vrtx_and_edge (local_origin, base_vrtx_1, base_vrtx_2, sing_vrt
     """
 #   mu_vec = [1, mu, mu, mu]            # first one is not graded!
     points = np.zeros((n+1, n+1, 3, n+1))  # level, i, coord, j
-    for k in xrange(n+1):
-        for i in xrange(n-k+1):
-            for j in xrange(n-k-i+1):
+    for k in range(n+1):
+        for i in range(n-k+1):
+            for j in range(n-k-i+1):
                 lambda_1 = lambda1 (i,j,0,n,mu); # it can be done with much lesser calls to these lambda
                 lambda_2 = lambda2 (i,j,0,n,mu);
                 # the sub-mesh is just the following two lines
@@ -179,11 +179,13 @@ def macroel_sing_edge(macroel_vertices, mu, n):
     greater than zero end up filled. Be careful not to use that coordinates. 
     """
     points = np.zeros((n+1,n+1,n+1,3))
-    for y in xrange(n+1):
-        for z in xrange(n+1-y):
+    for y in range(n+1):
+        for z in range(n+1-y):
             lambda_1, lambda_2 = lambda1 (y,z,0,n,mu), lambda2 (y,z,0,n,mu)
             points[0,y,z,:] = lambda_1*(macroel_vertices[:,1] - macroel_vertices[:,0]) + lambda_2*(macroel_vertices[:,2] - macroel_vertices[:,0])
 
+    if sys.version_info >= (3, 0):
+        xrange = range
     for x in xrange(1,n+1): # translating level 0 to the levels above
         points[x] = points[0] + (float(x)/n)*(macroel_vertices[:,3] - macroel_vertices[:,0])
 
