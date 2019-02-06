@@ -97,7 +97,7 @@ def filter_repeated_faces (n_elem):
 	mesh_conectivity.face_enumeration('elements_by_vertices.txt')
     if sys.version_info >= (3, 0):
         print(time.time() - t0)
-        print('\n')
+        print('\r')
     else:
     	print time.time() - t0
     	print '\r'
@@ -120,7 +120,7 @@ def filter_repeated_faces (n_elem):
 	replace_faces, indices, num_faces = mesh_conectivity.kill_repeated_faces('faces_repeated.txt')  
     if sys.version_info >= (3, 0):
         print(time.time() - t0)
-        print('\n')
+        print('\r')
     else:
         print time.time() - t0
         print '\r'
@@ -148,11 +148,11 @@ def filter_repeated_faces (n_elem):
     if sys.version_info >= (3, 0):
         print('\r')
         print(time.time() - t0)
-        print('\n')
+        print('\r')
     else:
         print '\r'
         print time.time() - t0
-        print '\n'
+        print '\r'
 
 	#elem_faces_discnt_index = elem_faces_discnt_index.reshape((n_elem,6))
 
@@ -170,7 +170,7 @@ def filter_repeated_faces (n_elem):
 		elem_faces[elem_faces_discnt_index==indices[i]] = i+1
     if sys.version_info >= (3, 0):
         print(time.time() - t0)
-        print('\n')
+        print('\r')
     else:
         print time.time() - t0
         print '\n'
@@ -198,10 +198,10 @@ def fichera (levels = 3, mu_ = .35, n_vert_prism = 6):
 	fichera_coords_ = mesh.cube_mesh_2(levels, mu_, mesh.p_, mesh.macro_el) 
     if sys.version_info >= (3, 0):
         print(time.time() - t0)
-        print('\n')
+        print('\r')
     else:
         print time.time() - t0
-        print '\n'
+        print '\r'
 	
 	# indices only for type I macro--el. writes file: elements.txt 
 	mesh_write.write_element_indices('elements.txt', levels)
