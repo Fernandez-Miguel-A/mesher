@@ -123,7 +123,7 @@ ax = fig.gca(projection='3d')
 
 
 # Prepare arrays x, y, z
-for i in [4*n for n in range(vertices.shape[0]/4)]:
+for i in [4*n for n in range(vertices.shape[0]//4)]:
 	a = np.array([0,1,2,3]+[0,2,3,1])+i*np.ones(8,dtype=int)
 
 	b = np.array([2]*8)

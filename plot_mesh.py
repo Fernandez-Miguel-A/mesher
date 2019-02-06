@@ -53,7 +53,7 @@ def plot_bbrick(mu = [1,1,1,1,1], angle_steps = [8,9,10], refinements = range(5,
 					P2 	  	= q[:,macro_el[m,permutation_of_vertices[m,2]]]
 					P3 	  	= q[:,macro_el[m,permutation_of_vertices[m,3]]]
 					points_T5 = macroel_sing_vrtx(P0, P1, P2, P3, mu[m], n)
-					for i in [4*nn for nn in range(points_T5.shape[0]/4)]:
+					for i in [4*nn for nn in range(points_T5.shape[0]//4)]:
 						a = np.array([0,1,2,3]+[0,2,3,1])+i*np.ones(8,dtype=int)
 					
 						b = np.array([2]*8)
